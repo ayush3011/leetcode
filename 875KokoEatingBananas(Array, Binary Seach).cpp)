@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int helper(int mid, const vector<int>& piles) {
+        long long hours = 0; //long long to handle large sums
+        for (int i = 0; i < piles.size(); i++) {
+            hours += (piles[i] + mid - 1) / mid; // Use this to round up
+            if (hours > INT_MAX) {
+                return INT_MAX; // Prevent overflow in hours
+            }
+        }
+        return hours;
+    }
+
+    int minEatingSpeed(vector<int>& piles, int h) {
+        sort(piles.begin(), piles.end());
+        int least=1, most=piles[piles.size()-1], hours=0;
+        while(least<=most){
+            long long mid = least + (most - least) / 2; 
+            hours=helper(mid, piles);
+            if(hours>h){
+                least=mid+1;
+            }
+            else{
+                most=mid-1;
+            }
+        }
+        return least;
+    }
+};
