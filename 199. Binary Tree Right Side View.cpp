@@ -12,30 +12,35 @@
  */
 class Solution {
 public:
+    // Using Level Order Traversal, BFS
     vector<int> rightSideView(TreeNode* root) {
-
         if (root == NULL)
             return {};
 
+        // queue to store the node
+        queue<TreeNode*> que;
+        que.push(root);
         vector<int> ans;
 
-        // queue for performing level order traversal
-        queue<TreeNode*> q;
-        q.push(root); // pushing the root
-
-        while (!q.empty()) {
-            int n = q.size(); // number of nodes in the current level
+        // while we find nodes
+        while (!que.empty()) {
+            int n = que.size();
             TreeNode* node = NULL;
+
+            // looping current level nodes
             while (n--) {
-                node = q.front(); // storing the last node of the queue
-                q.pop();
+                node = que.front();
+                que.pop();
+
                 if (node->left != NULL)
-                    q.push(node->left);
+                    que.push(node->left);
                 if (node->right != NULL)
-                    q.push(node->right);
+                    que.push(node->right);
             }
+            // pushing the rightmost node in the ans array
             ans.push_back(node->val);
         }
+
         return ans;
     }
 };
